@@ -252,6 +252,7 @@ qq.FileUploaderBasic = function(o){
     this._options = {
         action: '/server/upload',
         fileNameField: 'qqfile',
+        forceFormUpload: false,
         params: {},
         button: null,
         multiple: true,
@@ -303,7 +304,7 @@ qq.FileUploaderBasic.prototype = {
         
         return new qq.UploadButton({
             element: element,
-            multiple: this._options.multiple && qq.UploadHandlerXhr.isSupported(),
+            multiple: this._options.multiple && qq.UploadHandlerXhr.isSupported() && !this._options.forceFormUpload,
             onChange: function(input){
                 self._onInputChange(input);
             }        
@@ -313,7 +314,7 @@ qq.FileUploaderBasic.prototype = {
         var self = this,
             handlerClass;        
         
-        if(qq.UploadHandlerXhr.isSupported()){           
+        if(qq.UploadHandlerXhr.isSupported() && !this._options.forceFormUpload){
             handlerClass = 'UploadHandlerXhr';                        
         } else {
             handlerClass = 'UploadHandlerForm';
