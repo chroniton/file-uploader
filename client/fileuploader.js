@@ -251,6 +251,7 @@ var qq = qq || {};
 qq.FileUploaderBasic = function(o){
     this._options = {
         action: '/server/upload',
+        fileNameField: 'qqfile',
         params: {},
         button: null,
         multiple: true,
@@ -320,6 +321,7 @@ qq.FileUploaderBasic.prototype = {
 
         var handler = new qq[handlerClass]({
             action: this._options.action,         
+            fileNameField: this._options.fileNameField,
             maxConnections: this._options.maxConnections,   
             onProgress: function(id, fileName, loaded, total){                
                 self._onProgress(id, fileName, loaded, total);
@@ -1174,7 +1176,7 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
 
         // build query string
         params = params || {};
-        params['qqfile'] = name;
+        params[this._options.fileNameField] = name;
         var queryString = qq.obj2url(params, this._options.action);
 
         xhr.open("POST", queryString, true);
